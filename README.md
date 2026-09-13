@@ -1,5 +1,5 @@
 # 🥗 NutriBuddy — UN SDG 2 Zero Hunger Assistant
-
+🚀 **[Try NutriBuddy Live](https://nutribuddy-aibot.streamlit.app/)**
 NutriBuddy is an intelligent, highly accessible AI-powered assistant engineered to advance **United Nations Sustainable Development Goal 2: Zero Hunger**.
 
 It empowers students, families, community workers, and food rescue volunteers with:
