@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriBuddy • UN SDG 2 Zero Hunger Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --accent: #f59e0b;
+            --bg: #070b12;
+            --card-bg: rgba(18, 24, 34, 0.85);
+            --card-border: rgba(16, 185, 129, 0.25);
+            --text: #f1f5f9;
+            --subtext: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at top, #102d24 0%, var(--bg) 100%);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .portal-container {
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .portal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 50px rgba(16, 185, 129, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .avatar {
+            font-size: 3.6rem;
+            margin-bottom: 0.6rem;
+            display: inline-block;
+            filter: drop-shadow(0 6px 14px rgba(16, 185, 129, 0.35));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(90deg, #34d399, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.4rem;
+        }
+
+        .tagline {
+            color: var(--subtext);
+            font-size: 0.95rem;
+            line-height: 1.55;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1.6rem;
+            text-align: left;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 0.65rem 0.8rem;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-item span.icon {
+            font-size: 1.1rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399;
+            padding: 0.45rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #34d399;
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 1.4rem;
+        }
+
+        a.btn {
+            display: block;
+            padding: 0.95rem 1.4rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        a.btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+        }
+
+        a.btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(16, 185, 129, 0.5);
+        }
+
+        a.btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #e2e8f0;
+        }
+
+        a.btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .tip {
+            font-size: 0.8rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .code-pill {
+            background: rgba(0,0,0,0.5);
+            padding: 0.2rem 0.45rem;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #a5b4fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="portal-card">
+            <div class="avatar">🥗</div>
+            <h1>NutriBuddy Portal</h1>
+            <p class="tagline">Empowering UN SDG 2 (Zero Hunger) with intelligent low-cost nutrition, food waste reduction, and zero-waste leftover cooking.</p>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="icon">💬</span>
+                    <span>AI Chat & Knowledge</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🍳</span>
+                    <span>Leftover Recipe Studio</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">📅</span>
+                    <span>7-Day Budget Planner</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🥫</span>
+                    <span>Shelf-Life Encyclopedia</span>
+                </div>
+            </div>
+
+            <div class="status-badge">
+                <span class="pulse-dot"></span>
+                <span id="status-text">Detecting NutriBuddy Server...</span>
+            </div>
+
+            <div class="btn-group">
+                <a id="btn-8502" class="btn btn-primary" href="http://localhost:8502">
+                    🚀 Launch NutriBuddy (Port 8502)
+                </a>
+                <a id="btn-8501" class="btn btn-secondary" href="http://localhost:8501">
+                    🔄 Launch NutriBuddy (Port 8501)
+                </a>
+            </div>
+
+            <p class="tip">
+                To launch the server, double-click <span class="code-pill">run_app.bat</span> in your project directory.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Automatic health check & redirection: tests 8502 first, then 8501
+        async function checkAndRedirect() {
+            const statusEl = document.getElementById("status-text");
+            const ports = [8502, 8501];
+            for (let port of ports) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 1200);
+                    await fetch(`http://localhost:${port}/_stcore/health`, { mode: 'no-cors', signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    statusEl.innerText = `Connected! Redirecting to port ${port}...`;
+                    window.location.replace(`http://localhost:${port}`);
+                    return;
+                } catch (e) {
+                    // Try next port
+                }
+            }
+            statusEl.innerText = "Server waiting. Launch with run_app.bat";
+        }
+        checkAndRedirect();
+    </script>
+</body>
+</html>
