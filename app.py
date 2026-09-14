@@ -39,25 +39,47 @@ if "prompt_to_submit" not in st.session_state:
     st.session_state.prompt_to_submit = None
 
 # ---------------------------------------------------------
-# Custom Styling: Modern Glassmorphic Harvest Theme
+# Custom Styling: Modern NutriBuddy Product Theme
 # ---------------------------------------------------------
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     
+    :root {
+        --ink: #16352d;
+        --muted: #63756e;
+        --canvas: #f7f8f2;
+        --surface: #ffffff;
+        --line: #dce7df;
+        --forest: #176b4d;
+        --forest-dark: #10543c;
+        --mint: #dff5e7;
+        --amber: #c88218;
+        --amber-soft: #fff2d9;
+        --shadow: 0 12px 30px rgba(22, 53, 45, 0.08);
+    }
+
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
+    .stApp { background: var(--canvas); color: var(--ink); }
+    .block-container { max-width: 1280px; padding-top: 1.4rem; padding-bottom: 2rem; }
+    [data-testid="stSidebar"] { background: #f0f5ee; border-right: 1px solid var(--line); }
+    [data-testid="stSidebar"] > div:first-child { padding-top: 1.25rem; }
+    [data-testid="stSidebar"] h2 { color: var(--ink); font-size: 1.1rem; letter-spacing: -0.03em; }
+    [data-testid="stSidebar"] h3 { color: var(--forest); font-size: .83rem; letter-spacing: .07em; text-transform: uppercase; margin-top: .35rem; }
+    [data-testid="stSidebar"] hr { border-color: var(--line); margin: 1rem 0; }
+    p, .stMarkdown { color: var(--ink); }
+    [data-testid="stCaptionContainer"], .stCaption { color: var(--muted) !important; }
 
     /* Hero Banner */
     .hero-container {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(245, 158, 11, 0.08) 100%);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        border-radius: 16px;
-        padding: 1.4rem 1.8rem;
-        margin-bottom: 1.2rem;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        background: radial-gradient(circle at 88% 18%, #f9dd9b 0, rgba(249, 221, 155, .55) 11%, transparent 29%), linear-gradient(125deg, #e1f4e4 0%, #f6f8ee 58%, #fff5de 100%);
+        border: 1px solid #cfe3d5;
+        border-radius: 24px;
+        padding: 1.65rem 1.9rem;
+        margin-bottom: 1.25rem;
+        box-shadow: var(--shadow);
     }
     .hero-title-row {
         display: flex;
@@ -67,9 +89,9 @@ st.markdown("""
         gap: 0.8rem;
     }
     .hero-title {
-        font-size: 1.85rem;
+        font-size: clamp(1.75rem, 4vw, 2.45rem);
         font-weight: 800;
-        background: linear-gradient(90deg, #34d399, #fbbf24);
+        background: linear-gradient(90deg, var(--forest-dark), #2b795c);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin: 0;
@@ -78,8 +100,8 @@ st.markdown("""
         gap: 0.5rem;
     }
     .hero-sub {
-        color: #94a3b8;
-        font-size: 0.95rem;
+        color: #4e665c;
+        font-size: .94rem;
         margin-top: 0.4rem;
         line-height: 1.5;
     }
@@ -97,9 +119,9 @@ st.markdown("""
         font-weight: 700;
         padding: 0.3rem 0.7rem;
         border-radius: 9999px;
-        background: rgba(16, 185, 129, 0.18);
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.4);
+        background: rgba(255,255,255,.7);
+        color: var(--forest-dark);
+        border: 1px solid #b8d9c3;
     }
     .waste-badge {
         display: inline-flex;
@@ -109,9 +131,9 @@ st.markdown("""
         font-weight: 700;
         padding: 0.3rem 0.7rem;
         border-radius: 9999px;
-        background: rgba(245, 158, 11, 0.18);
-        color: #fbbf24;
-        border: 1px solid rgba(245, 158, 11, 0.4);
+        background: rgba(255,249,236,.85);
+        color: #9b6411;
+        border: 1px solid #eed29a;
     }
     .ai-badge {
         display: inline-flex;
@@ -121,60 +143,90 @@ st.markdown("""
         font-weight: 700;
         padding: 0.3rem 0.7rem;
         border-radius: 9999px;
-        background: rgba(99, 102, 241, 0.18);
-        color: #a5b4fc;
-        border: 1px solid rgba(99, 102, 241, 0.4);
+        background: rgba(255,255,255,.7);
+        color: #406b60;
+        border: 1px solid #c8ddd5;
     }
 
     /* Cards & Container styles */
     .feature-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 14px;
-        padding: 1.2rem;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1.25rem;
         margin-bottom: 1rem;
         transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .feature-card:hover {
-        border-color: rgba(16, 185, 129, 0.4);
+        border-color: #9dceb0;
         transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(22, 53, 45, .06);
     }
     .recipe-card {
-        background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, rgba(20, 26, 36, 0.8) 100%);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        border-radius: 14px;
-        padding: 1.4rem;
+        background: linear-gradient(135deg, #edfbf0 0%, #fffdf5 100%);
+        border: 1px solid #b9dfc3;
+        border-radius: 18px;
+        padding: 1.45rem;
         margin-top: 1rem;
+        box-shadow: var(--shadow);
     }
     .impact-stat-box {
-        background: rgba(16, 185, 129, 0.08);
-        border: 1px solid rgba(16, 185, 129, 0.25);
-        border-radius: 12px;
+        background: rgba(255,255,255,.7);
+        border: 1px solid #cfe2d4;
+        border-radius: 14px;
         padding: 0.9rem 1rem;
         text-align: center;
     }
     .impact-stat-number {
         font-size: 1.5rem;
         font-weight: 800;
-        color: #34d399;
+        color: var(--forest);
     }
     .impact-stat-label {
         font-size: 0.75rem;
-        color: #94a3b8;
+        color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         margin-top: 0.2rem;
     }
 
     /* Button polish */
-    .stButton>button {
-        border-radius: 10px;
+    .stButton>button, .stDownloadButton>button {
+        border-radius: 11px;
         font-weight: 600;
+        min-height: 2.55rem;
+        border-color: #c8dbcf;
+        color: var(--ink);
+        background: #fff;
         transition: all 0.2s ease-in-out;
     }
     .stButton>button:hover {
-        border-color: #10b981;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+        border-color: var(--forest);
+        color: var(--forest-dark);
+        box-shadow: 0 4px 14px rgba(23, 107, 77, 0.16);
+    }
+    .stButton>button[kind="primary"] { background: var(--forest); border-color: var(--forest); color: #fff; }
+    .stButton>button[kind="primary"]:hover { background: var(--forest-dark); color: #fff; }
+    [data-testid="stChatMessage"] { border: 1px solid var(--line); border-radius: 16px; padding: .25rem .8rem; margin: .75rem 0; background: #fff; box-shadow: 0 4px 15px rgba(22,53,45,.035); }
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) { background: #eaf6ee; border-color: #c3e0cb; }
+    [data-testid="stChatInput"] {
+        border: 1px solid #b7d4c0;
+        border-radius: 16px;
+        background: #ffffff !important;
+        box-shadow: 0 8px 22px rgba(22,53,45,.08);
+    }
+    [data-testid="stChatInput"] > div,
+    [data-testid="stChatInput"] [data-baseweb="base-input"],
+    [data-testid="stChatInput"] textarea {
+        background-color: #ffffff !important;
+        color: #16352d !important;
+        -webkit-text-fill-color: #16352d !important;
+        caret-color: #176b4d !important;
+    }
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: #63756e !important;
+        -webkit-text-fill-color: #63756e !important;
+        opacity: 1;
     }
     
     /* Shelf life tags */
@@ -186,18 +238,196 @@ st.markdown("""
         margin-right: 0.4rem;
         font-weight: 600;
     }
-    .shelf-pantry { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .shelf-fridge { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-    .shelf-freezer { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+    .shelf-pantry { background: var(--amber-soft); color: #946014; }
+    .shelf-fridge { background: #e4f3f4; color: #22737a; }
+    .shelf-freezer { background: #eeeafb; color: #6650aa; }
 
     /* Tabs formatting */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
+        gap: 6px;
+        background: #edf3ed;
+        padding: 5px;
+        border-radius: 14px;
+        overflow-x: auto;
     }
     .stTabs [data-baseweb="tab"] {
-        border-radius: 8px 8px 0px 0px;
-        padding: 10px 16px;
+        border-radius: 10px;
+        padding: 9px 14px;
         font-weight: 600;
+        color: #63756e;
+        white-space: nowrap;
+    }
+    .stTabs [aria-selected="true"] { background: #fff; color: var(--forest-dark) !important; box-shadow: 0 2px 8px rgba(22,53,45,.09); }
+    .stTabs [data-baseweb="tab-highlight"] { display: none; }
+    [data-testid="stExpander"] { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+    [data-testid="stExpander"] summary { padding: .2rem .25rem; }
+    [data-testid="stMetric"] { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: .8rem; }
+    [data-testid="stMetricLabel"] { color: var(--muted); }
+    [data-testid="stMetricValue"] { color: var(--forest-dark); }
+    [data-testid="stTextInput"] input, [data-testid="stNumberInput"] input, [data-baseweb="select"] > div {
+        border-radius: 10px !important;
+        border-color: #c9d9ce !important;
+        background: #fff !important;
+        color: var(--ink) !important;
+    }
+    [data-baseweb="select"] * { color: var(--ink) !important; }
+    [data-testid="stTextInput"] input::placeholder, textarea::placeholder { color: #8ba096 !important; opacity: 1; }
+    [data-testid="stTextInput"] input, [data-testid="stNumberInput"] input, [data-testid="stTextArea"] textarea { color: var(--ink) !important; }
+    [data-testid="stToggle"] { padding: .45rem 0; }
+    .section-eyebrow { color: var(--forest); font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin: .1rem 0 .25rem; }
+    .section-title { color: var(--ink); font-size: 1.35rem; letter-spacing: -.035em; margin: 0 0 .3rem; }
+    .section-copy { color: var(--muted); margin: 0 0 1rem; line-height: 1.55; }
+
+    /* Second-pass product polish */
+    .stApp {
+        background:
+            radial-gradient(circle at 96% 1%, rgba(230, 205, 120, .16), transparent 20rem),
+            radial-gradient(circle at 7% 24%, rgba(177, 213, 181, .18), transparent 23rem),
+            #f8f7f0;
+    }
+    .block-container { max-width: 1240px; padding-top: 1.7rem; }
+    .hero-container {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        border: 1px solid rgba(160, 194, 164, .62);
+        border-radius: 28px;
+        padding: 2rem 2.15rem;
+        background:
+            radial-gradient(ellipse at 92% 15%, rgba(249, 211, 108, .46), transparent 20%),
+            radial-gradient(ellipse at 78% 95%, rgba(159, 205, 169, .34), transparent 31%),
+            linear-gradient(125deg, #e6f2e5 0%, #f9f7ec 53%, #fff7e7 100%);
+        box-shadow: 0 18px 42px rgba(35, 76, 55, .10);
+    }
+    .hero-container::before,
+    .hero-container::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .hero-container::before { width: 12rem; height: 12rem; right: -4.8rem; top: -5.2rem; background: rgba(255,255,255,.34); border: 1px solid rgba(255,255,255,.6); }
+    .hero-container::after { width: 5.4rem; height: 5.4rem; right: 17%; bottom: -3.1rem; background: rgba(245, 209, 103, .2); }
+    .hero-kicker { color: #4d7858; font-size: .7rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; margin-bottom: .35rem; }
+    .hero-title { font-size: clamp(2rem, 4.2vw, 3rem); letter-spacing: -.065em; }
+    .hero-title .hero-mark { display: inline-grid; place-items: center; width: 2.55rem; height: 2.55rem; border-radius: 15px; background: rgba(255,255,255,.62); box-shadow: 0 5px 13px rgba(35,76,55,.08); font-size: 1.55rem; }
+    .hero-sub { max-width: 42rem; font-size: .98rem; line-height: 1.65; }
+    .badge-container { gap: .55rem; margin-top: 1rem; }
+    .sdg-badge, .waste-badge, .ai-badge { padding: .42rem .74rem; box-shadow: 0 2px 6px rgba(35,76,55,.04); transition: transform .18s ease, box-shadow .18s ease; }
+    .sdg-badge:hover, .waste-badge:hover, .ai-badge:hover { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(35,76,55,.09); }
+
+    [data-testid="stSidebar"] { background: linear-gradient(180deg, #f2f6ee 0%, #edf3e9 100%); border-right-color: #d4e0d3; }
+    [data-testid="stSidebar"] > div:first-child { padding: 1.35rem .9rem 1.5rem; }
+    [data-testid="stSidebar"] h2 { font-size: 1.2rem; }
+    [data-testid="stSidebar"] h3 { margin-top: .8rem; color: #52775c; }
+    [data-testid="stSidebar"] [data-testid="stSelectbox"],
+    [data-testid="stSidebar"] [data-testid="stTextInput"] { margin-bottom: .3rem; }
+    [data-testid="stSidebar"] hr { border-color: rgba(157, 185, 157, .48); margin: 1.15rem 0; }
+    [data-testid="stSidebar"] [data-testid="stToggle"] { border-bottom: 1px solid rgba(181, 204, 181, .42); }
+
+    .impact-stat-box {
+        min-height: 5.7rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: .15rem;
+        background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(238,247,234,.72));
+        border-color: rgba(174, 205, 177, .8);
+        box-shadow: 0 7px 16px rgba(39, 83, 56, .06);
+        transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .impact-stat-box:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(39,83,56,.1); }
+    .impact-stat-icon { font-size: .95rem; line-height: 1; }
+    .impact-stat-number { line-height: 1; font-size: 1.42rem; }
+
+    .stButton > button, .stDownloadButton > button {
+        border-radius: 13px;
+        border-color: #c8dcc9;
+        background: rgba(255,255,255,.82);
+        box-shadow: 0 2px 5px rgba(31,73,49,.025);
+        transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .stButton > button:hover, .stDownloadButton > button:hover { transform: translateY(-1px); border-color: #8eb796; box-shadow: 0 7px 15px rgba(31,73,49,.10); }
+    .stButton > button[kind="primary"] { background: linear-gradient(135deg, #2c7653, #176044); border-color: #176044; box-shadow: 0 7px 15px rgba(23,96,68,.19); }
+    .stButton > button[kind="primary"]:hover { background: linear-gradient(135deg, #236445, #104b34); }
+
+    /* A calmer, conversational chat surface */
+    [data-testid="stChatMessage"] {
+        border: 1px solid rgba(205, 222, 206, .88);
+        border-radius: 20px;
+        padding: .5rem 1rem;
+        margin: .85rem 0;
+        background: rgba(255,255,255,.86);
+        box-shadow: 0 7px 18px rgba(31,73,49,.045);
+    }
+    [data-testid="stChatMessage"] [data-testid="stChatMessageContent"] { line-height: 1.7; }
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+        margin-left: 7%;
+        background: linear-gradient(135deg, #dcefe1, #ecf7ea);
+        border-color: #bddbc3;
+        box-shadow: none;
+    }
+    [data-testid="stChatMessage"]:not(:has([data-testid="chatAvatarIcon-user"])) { margin-right: 4%; }
+    [data-testid="stChatMessage"] [data-testid="chatAvatarIcon-assistant"] { background: #e1f0df; color: #176044; border-radius: 12px; }
+    [data-testid="stChatInput"] {
+        border: 1px solid #a9caaa;
+        border-radius: 18px;
+        background: #ffffff !important;
+        box-shadow: 0 10px 25px rgba(29,73,48,.10);
+    }
+    [data-testid="stChatInput"] textarea {
+        background: #ffffff !important;
+        color: #16352d !important;
+        -webkit-text-fill-color: #16352d !important;
+        caret-color: #176b4d !important;
+    }
+    [data-testid="stChatInput"] textarea::placeholder { color: #66786d !important; -webkit-text-fill-color: #66786d !important; opacity: 1; }
+    [data-testid="stChatInput"] button { background: #176b4d !important; color: #ffffff !important; border-radius: 11px !important; }
+    [data-testid="stChatInput"] button svg { fill: #ffffff !important; color: #ffffff !important; }
+
+    /* Refined navigation, inputs, and information surfaces */
+    .stTabs [data-baseweb="tab-list"] { gap: .35rem; padding: .38rem; background: rgba(230, 239, 229, .85); border: 1px solid rgba(202,220,202,.8); border-radius: 17px; scrollbar-width: none; }
+    .stTabs [data-baseweb="tab"] { padding: .62rem .9rem; border-radius: 12px; font-size: .82rem; transition: color .16s ease, background .16s ease, box-shadow .16s ease; }
+    .stTabs [data-baseweb="tab"]:hover { color: var(--forest-dark); background: rgba(255,255,255,.58); }
+    .stTabs [aria-selected="true"] { background: #fffdf8; box-shadow: 0 4px 12px rgba(42,84,58,.10); }
+    [data-testid="stExpander"] { border-color: rgba(202,220,202,.9); border-radius: 17px; box-shadow: 0 4px 12px rgba(31,73,49,.035); }
+    [data-testid="stExpander"] summary { padding: .42rem .5rem; }
+    [data-testid="stMetric"] { border-color: rgba(202,220,202,.9); border-radius: 17px; background: linear-gradient(145deg, #fffefa, #f3f8ef); box-shadow: 0 5px 13px rgba(31,73,49,.04); }
+    [data-testid="stMetricValue"] { font-size: 1.35rem; }
+    [data-testid="stTextInput"] input, [data-testid="stNumberInput"] input, [data-baseweb="select"] > div { border-radius: 12px !important; border-color: #cadcca !important; min-height: 2.65rem; }
+    [data-testid="stTextInput"] input:focus, [data-testid="stNumberInput"] input:focus { border-color: #78a783 !important; box-shadow: 0 0 0 3px rgba(120,167,131,.12) !important; }
+    [data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"] { background: #216d4b; border-color: #216d4b; }
+    [data-testid="stCheckbox"] label, [data-testid="stRadio"] label { color: #385847; }
+    .feature-card h3 { color: #216d4b !important; }
+    .feature-card p { color: #587064 !important; }
+    .feature-card strong { color: #9a6817 !important; }
+    .shelf-tag { border-radius: 999px; padding: .27rem .65rem; }
+    .section-eyebrow { color: #5d8664; letter-spacing: .13em; }
+    .section-title { font-size: clamp(1.45rem, 2.5vw, 1.82rem); line-height: 1.2; }
+    .section-copy { max-width: 44rem; font-size: .94rem; line-height: 1.65; }
+    [data-testid="stMarkdownContainer"] hr { border-color: rgba(193,214,193,.68); }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border: 1px solid rgba(205, 223, 204, .9) !important;
+        border-radius: 17px !important;
+        background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(242,248,238,.78));
+        box-shadow: 0 5px 14px rgba(31,73,49,.035);
+        transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"]:hover { transform: translateY(-2px); border-color: #a8caa9 !important; box-shadow: 0 10px 20px rgba(31,73,49,.08); }
+    .prompt-card-title { color: #234d37; font-size: .88rem; font-weight: 800; margin-bottom: .12rem; }
+    .prompt-card-copy { color: #6b7c70; font-size: .74rem; line-height: 1.45; min-height: 2.15rem; }
+    [data-testid="stVerticalBlockBorderWrapper"] .stButton > button { border: 0; background: transparent; min-height: 2rem; padding: .2rem 0; color: #236445; justify-content: flex-start; box-shadow: none; }
+    [data-testid="stVerticalBlockBorderWrapper"] .stButton > button:hover { transform: none; background: transparent; box-shadow: none; color: #104b34; }
+    @media (max-width: 760px) {
+        .block-container { padding: 1rem .85rem 1.5rem; }
+        .hero-container { padding: 1.4rem 1.25rem; border-radius: 21px; }
+        .hero-title-row { align-items: flex-start; }
+        .hero-sub { font-size: .9rem; }
+        .stTabs [data-baseweb="tab"] { padding: .58rem .72rem; font-size: .76rem; }
+        [data-testid="stChatMessage"] { border-radius: 16px; margin-right: 0 !important; }
+        [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) { margin-left: 0; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -617,7 +847,8 @@ What would you like to cook or learn today?
 # Sidebar Configuration & Controls
 # ---------------------------------------------------------
 with st.sidebar:
-    st.markdown("## ⚙️ Control Center")
+    st.markdown("## ⚙️ Your nutrition space")
+    st.caption("Personalize your guidance, choose your AI mode, and track your impact.")
     
     # Mode selection
     recipe_mode = st.toggle("🍲 Recipe Mode", value=False, help="Forces responses to be formatted as structured zero-waste recipes.")
@@ -636,11 +867,14 @@ with st.sidebar:
         index=1
     )
 
-    st.markdown("---")
-    st.markdown("### ⚡ AI Configuration (OpenRouter)")
-    
-    # Retrieve env key if available
+    # Retrieve the configured key in the background; connection controls are not
+    # part of the public nutrition experience.
     env_api_key = os.getenv("OPENROUTER_API_KEY", "")
+    if not env_api_key:
+        try:
+            env_api_key = st.secrets.get("OPENROUTER_API_KEY", "")
+        except Exception:
+            pass
     if not env_api_key:
         for env_path in [".env", ".venv/.env"]:
             if os.path.exists(env_path):
@@ -653,35 +887,14 @@ with st.sidebar:
                 except Exception:
                     pass
 
-    user_api_key = st.text_input(
-        "OpenRouter API Key",
-        value="",
-        type="password",
-        placeholder="sk-or-v1-... (auto-loaded from .env)",
-        help="Reads OPENROUTER_API_KEY from .env automatically or paste your key here."
-    )
-    user_api_key = (user_api_key or "").strip()
     env_api_key = (env_api_key or "").strip()
-    active_api_key = user_api_key or env_api_key
-
-    model_choice = st.selectbox(
-        "AI Model",
-        ["openrouter/free"],
-        index=0,
-        help="OpenRouter automatically routes this to an available free model."
-    )
-
-    col_test, col_clear = st.columns(2)
-    with col_test:
-        test_key_btn = st.button("🧪 Test API", use_container_width=True)
-    with col_clear:
-        if st.button("🗑️ Clear Chat", use_container_width=True):
-            st.session_state.messages = []
-            st.rerun()
+    active_api_key = env_api_key
+    model_choice = "openrouter/free"
+    test_key_btn = False
 
     if test_key_btn:
         if not active_api_key:
-            st.warning("⚠️ No API key found. Please add `OPENROUTER_API_KEY` to your `.env` file or paste it above.")
+            st.warning("⚠️ A configured AI connection is not currently available.")
         else:
             with st.spinner("Testing OpenRouter connection..."):
                 try:
@@ -735,6 +948,7 @@ with st.sidebar:
     with col_s1:
         st.markdown(f"""
         <div class="impact-stat-box">
+            <div class="impact-stat-icon">🍽️</div>
             <div class="impact-stat-number">{st.session_state.meals_planned}</div>
             <div class="impact-stat-label">Meals Planned</div>
         </div>
@@ -742,6 +956,7 @@ with st.sidebar:
     with col_s2:
         st.markdown(f"""
         <div class="impact-stat-box">
+            <div class="impact-stat-icon">🌿</div>
             <div class="impact-stat-number">{st.session_state.waste_saved_kg:.1f}kg</div>
             <div class="impact-stat-label">Food Saved</div>
         </div>
@@ -749,6 +964,7 @@ with st.sidebar:
     
     st.markdown(f"""
     <div style="margin-top: 0.6rem;" class="impact-stat-box">
+        <div class="impact-stat-icon">✦</div>
         <div class="impact-stat-number">${st.session_state.money_saved_usd:.2f}</div>
         <div class="impact-stat-label">Estimated Money Saved</div>
     </div>
@@ -779,9 +995,10 @@ st.markdown("""
 <div class="hero-container">
     <div class="hero-title-row">
         <div>
-            <h1 class="hero-title">🥗 NutriBuddy</h1>
+            <div class="hero-kicker">A gentler way to eat well</div>
+            <h1 class="hero-title"><span class="hero-mark">🥗</span> NutriBuddy</h1>
             <div class="hero-sub">
-                Intelligent Assistant for <strong>UN SDG 2: Zero Hunger</strong> • High-Nutrition Low-Cost Cooking, Food Waste Elimination & Pantry Rescue.
+                Thoughtful nutrition guidance for <strong>UN SDG 2: Zero Hunger</strong> — make nourishing meals, spend with confidence, and give good food a second life.
             </div>
         </div>
         <div class="badge-container">
@@ -809,24 +1026,37 @@ tab_chat, tab_studio, tab_planner, tab_storage, tab_calc = st.tabs([
 # ---------------------------------------------------------
 with tab_chat:
     # Starter Prompt Chips
-    st.markdown("<p style='font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.4rem; font-weight: 600;'>✨ Quick Starter Questions:</p>", unsafe_allow_html=True)
+    st.markdown("<div class='section-eyebrow'>Start here</div><h2 class='section-title'>What can we make better today?</h2><p class='section-copy'>Ask about budget-friendly nutrition, pantry rescue, food storage, or a simple meal plan.</p>", unsafe_allow_html=True)
+    clear_chat_col, _ = st.columns([1, 4])
+    with clear_chat_col:
+        if st.button("↺ Clear conversation", use_container_width=True, key="chat_clear_conversation"):
+            st.session_state.messages = []
+            st.rerun()
     c_p1, c_p2, c_p3, c_p4 = st.columns(4)
     with c_p1:
-        if st.button("🍳 $3 High-Protein Plan", use_container_width=True):
-            st.session_state.prompt_to_submit = "Create a healthy, high-protein daily meal plan for under $3 using accessible staple ingredients."
-            st.rerun()
+        with st.container(border=True):
+            st.markdown("<div class='prompt-card-title'>🍳 $3 High-Protein Plan</div><div class='prompt-card-copy'>Build a filling day from affordable staples.</div>", unsafe_allow_html=True)
+            if st.button("Try this prompt →", use_container_width=True, key="prompt_try_high_protein_plan"):
+                st.session_state.prompt_to_submit = "Create a healthy, high-protein daily meal plan for under $3 using accessible staple ingredients."
+                st.rerun()
     with c_p2:
-        if st.button("🥬 Stop Veggie Spoilage", use_container_width=True):
-            st.session_state.prompt_to_submit = "How do I store leafy greens, bread, and root vegetables so they stay fresh 2x longer?"
-            st.rerun()
+        with st.container(border=True):
+            st.markdown("<div class='prompt-card-title'>🥬 Stop Veggie Spoilage</div><div class='prompt-card-copy'>Keep everyday produce fresher for longer.</div>", unsafe_allow_html=True)
+            if st.button("Try this prompt →", use_container_width=True, key="prompt_try_veggie_spoilage"):
+                st.session_state.prompt_to_submit = "How do I store leafy greens, bread, and root vegetables so they stay fresh 2x longer?"
+                st.rerun()
     with c_p3:
-        if st.button("👶 Affordable Iron & Vitamins", use_container_width=True):
-            st.session_state.prompt_to_submit = "What are the cheapest plant-based sources of iron and vitamin A to prevent anemia and malnutrition?"
-            st.rerun()
+        with st.container(border=True):
+            st.markdown("<div class='prompt-card-title'>👶 Affordable Iron & Vitamins</div><div class='prompt-card-copy'>Find low-cost nutrient-dense ingredients.</div>", unsafe_allow_html=True)
+            if st.button("Try this prompt →", use_container_width=True, key="prompt_try_iron_vitamins"):
+                st.session_state.prompt_to_submit = "What are the cheapest plant-based sources of iron and vitamin A to prevent anemia and malnutrition?"
+                st.rerun()
     with c_p4:
-        if st.button("🌍 What is UN SDG 2?", use_container_width=True):
-            st.session_state.prompt_to_submit = "Explain UN Sustainable Development Goal 2 (Zero Hunger) and 4 practical habits people can adopt to reduce hunger."
-            st.rerun()
+        with st.container(border=True):
+            st.markdown("<div class='prompt-card-title'>🌍 What is UN SDG 2?</div><div class='prompt-card-copy'>Turn the Zero Hunger goal into daily action.</div>", unsafe_allow_html=True)
+            if st.button("Try this prompt →", use_container_width=True, key="prompt_try_sdg2_explainer"):
+                st.session_state.prompt_to_submit = "Explain UN Sustainable Development Goal 2 (Zero Hunger) and 4 practical habits people can adopt to reduce hunger."
+                st.rerun()
 
     st.markdown("<div style='margin-bottom: 0.8rem;'></div>", unsafe_allow_html=True)
 
@@ -870,7 +1100,7 @@ with tab_chat:
                     )
                     st.markdown(final_reply)
                     if not active_api_key and not demo_mode:
-                        st.caption("ℹ️ *Powered by NutriBuddy Intelligent Offline Engine. Add OPENROUTER_API_KEY to your .env file for live model streaming.*")
+                        st.caption("ℹ️ *Powered by NutriBuddy's intelligent offline knowledge engine.*")
             else:
                 # Prepare System Prompt
                 sys_instruction = (
@@ -985,8 +1215,7 @@ with tab_chat:
 # TAB 2: Smart Leftover Studio
 # ---------------------------------------------------------
 with tab_studio:
-    st.markdown("### 🍳 Zero-Waste Leftover & Pantry Studio")
-    st.write("Select or type whatever ingredients are currently sitting in your fridge, crisper drawer, or pantry. NutriBuddy will craft a low-cost, waste-free recipe instantly!")
+    st.markdown("<div class='section-eyebrow'>Waste less • eat well</div><h2 class='section-title'>Zero-waste leftover studio</h2><p class='section-copy'>Choose what you have on hand and get a low-cost recipe designed to use it well.</p>", unsafe_allow_html=True)
 
     col_tag1, col_tag2, col_tag3 = st.columns(3)
     with col_tag1:
@@ -1068,8 +1297,7 @@ with tab_studio:
 # TAB 3: 7-Day Budget Meal Planner & Grocery List
 # ---------------------------------------------------------
 with tab_planner:
-    st.markdown("### 📅 7-Day Budget Meal Planner & Smart Grocery List")
-    st.write("Generate a balanced, high-protein meal schedule tailored to your budget tier and dietary needs, designed to maximize bulk staples and minimize cost.")
+    st.markdown("<div class='section-eyebrow'>Plan with confidence</div><h2 class='section-title'>Budget meal planner & grocery list</h2><p class='section-copy'>Build a balanced, high-protein schedule that makes smart use of affordable staples.</p>", unsafe_allow_html=True)
 
     col_p1, col_p2, col_p3 = st.columns(3)
     with col_p1:
@@ -1146,8 +1374,7 @@ with tab_planner:
 # TAB 4: Food Shelf-Life & Spoilage Guide
 # ---------------------------------------------------------
 with tab_storage:
-    st.markdown("### 🥫 Interactive Food Shelf-Life & Spoilage Encyclopedia")
-    st.write("Food waste is one of the leading contributors to global resource depletion and food insecurity. Search any kitchen staple to learn exact shelf-life, proper storage conditions, and how to revive it.")
+    st.markdown("<div class='section-eyebrow'>Keep food in its prime</div><h2 class='section-title'>Shelf-life & spoilage guide</h2><p class='section-copy'>Search a kitchen staple for storage guidance, spoilage signals, and simple rescue ideas.</p>", unsafe_allow_html=True)
 
     search_query = st.text_input("🔍 Search food item (e.g. spinach, bread, rice, eggs, potato, cheese, banana)", "").lower().strip()
 
@@ -1177,8 +1404,7 @@ with tab_storage:
 # TAB 5: Macro Target & SDG 2 Impact Tracker
 # ---------------------------------------------------------
 with tab_calc:
-    st.markdown("### 📊 Personal Nutrition Target & SDG 2 Impact Tracker")
-    st.write("Calculate your daily caloric and macronutrient needs based on scientifically validated nutritional guidelines, and explore accessible low-cost staple foods that fulfill them.")
+    st.markdown("<div class='section-eyebrow'>Personal nutrition snapshot</div><h2 class='section-title'>Macro targets & impact tracker</h2><p class='section-copy'>Estimate daily energy and nutrient needs, then see affordable staples that can help you get there.</p>", unsafe_allow_html=True)
 
     c_calc1, c_calc2 = st.columns([1, 1])
     with c_calc1:
